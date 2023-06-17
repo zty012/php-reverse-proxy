@@ -31,7 +31,7 @@ if ($response) {
         global $server_name;
         return "http://$server_name/proxy/?" . $m[0];
     }, $response);
-    header("Content-Type: " . $http_response_header);
+    header("Content-Type: " . $http_response_header["Content-Type"]);
     echo $response;
 } else {
     if ($headers_string === "") {
