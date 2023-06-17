@@ -25,6 +25,6 @@ $context = stream_context_create($options);
 $response = file_get_contents($real_url, false, $context);
 $response = preg_replace_callback($url_pattern, function ($m) {
     global $server_name;
-    return "http://$server_name/proxy/" . $m[0];
+    return "http://$server_name/proxy/?" . $m[0];
 }, $response);
 echo $response;
