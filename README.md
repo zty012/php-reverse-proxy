@@ -13,4 +13,5 @@
 - 无法识别重定向
 - 无法携带 Cookies
 - 不支持相对 URL 替换, 例如 `/blog/1` 和 `./features`
+- 不支持前端路由
 - 无法自动识别 `Content-Type`
