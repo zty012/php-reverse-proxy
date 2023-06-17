@@ -1,9 +1,10 @@
 <?php
 /** 
  * PHP Reverse Proxy
- * v1.0 By shikukuya
+ * By shikukuya
  */
 
+error_reporting(0);
 $url_pattern = "/https?:\/\/[-A-Za-z0-9+&@#\/%?=~_|!:,.;]+[-A-Za-z0-9+&@#\/%=~_|]/";
 $real_url = $_SERVER["QUERY_STRING"];
 $server_name = $_SERVER["SERVER_NAME"];
@@ -16,6 +17,8 @@ foreach ($headers as $k => $v) {
 if (!preg_match($url_pattern, $real_url)) {
     $real_url = "http://$real_url";
 }
+
+request:
 $options["http"] = array(
     "timeout" => 15,
     "method" => $method,
@@ -23,8 +26,17 @@ $options["http"] = array(
 );
 $context = stream_context_create($options);
 $response = file_get_contents($real_url, false, $context);
-$response = preg_replace_callback($url_pattern, function ($m) {
-    global $server_name;
-    return "http://$server_name/proxy/?" . $m[0];
-}, $response);
-echo $response;
+if ($response) {
+    $response = preg_replace_callback($url_pattern, function ($m) {
+        global $server_name;
+        return "http://$server_name/proxy/?" . $m[0];
+    }, $response);
+    echo $response;
+} else {
+    if ($headers_string === "") {
+        die("无法访问此页面");
+    } else {
+        $headers_string = "";
+        goto request;
+    }
+}
