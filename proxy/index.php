@@ -19,11 +19,11 @@ if (!preg_match($url_pattern, $real_url)) {
 }
 
 request:
-$options["http"] = array(
+$options["http"] = [
     "timeout" => 15,
     "method" => $method,
     "header" => $headers_string,
-);
+];
 $context = stream_context_create($options);
 $response = file_get_contents($real_url, false, $context);
 if ($response) {
@@ -31,6 +31,7 @@ if ($response) {
         global $server_name;
         return "http://$server_name/proxy/?" . $m[0];
     }, $response);
+    header("Content-Type: " . $http_response_header);
     echo $response;
 } else {
     if ($headers_string === "") {
