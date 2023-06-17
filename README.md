@@ -15,3 +15,4 @@
 - 不支持相对 URL 替换, 例如 `/blog/1` 和 `./features`
 - 不支持前端路由
 - 无法自动识别 `Content-Type`
+- 不支持动态页面跳转, 例如 `window.location.href = "/blog/1"`
